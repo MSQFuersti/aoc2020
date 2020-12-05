@@ -13,12 +13,9 @@ def extractSeatId(seatString):
     return int(binaryString, 2)
 
 
-
 def getMissingSeat(seatIds):
     for seatId in seatIds:
-        if seatId + 1 in seatIds:
-            continue
-        if seatId + 2 in seatIds:
+        if seatId + 1 not in seatIds and seatId + 2 in seatIds:
             return seatId + 1
 
 
