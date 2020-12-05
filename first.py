@@ -6,7 +6,6 @@ with open('input.txt') as csv_file:
     flattenData = [int(item) for sublist in data for item in sublist]
     print(flattenData)
 
-print(flattenData)
 for item in flattenData:
     if 2020 - item in flattenData:
         print((2020 - item) * item)
