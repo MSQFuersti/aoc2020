@@ -1,7 +1,7 @@
 import csv
 
 
-def getCsv(txtFileName='twelfthTest.txt'):
+def getCsv(txtFileName='thirteenth.txt'):
     with open(txtFileName) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         return list(csv_reader)
@@ -29,7 +29,7 @@ def getEarliestId(minTime, lineIds):
         for lineId in lineIds:
             if timeStamp % lineId == 0:
                 return lineId * (timeStamp - minTime)
-        timeStamp = timeStamp + 1
+
 
 def getEarliestTimeStamp(lineIds):
     factor = int(lineIds[0])
@@ -39,6 +39,7 @@ def getEarliestTimeStamp(lineIds):
             continue
         while (timeStamp+index+1) % int(value) != 0:
             timeStamp = timeStamp + factor
+            print(timeStamp)
         factor = factor * int(value)
 
     return timeStamp
