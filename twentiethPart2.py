@@ -3,7 +3,7 @@ import numpy as np
 import copy
 
 
-def getCsv(txtFileName='twentieth.txt'):
+def getCsv(txtFileName='twentiethTest.txt'):
     with open(txtFileName) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=' ')
         return list(csv_reader)
@@ -36,7 +36,7 @@ def parseTiles(csvFile):
     return tileDict
 
 
-def findCornerIds(tiles):
+def getIndexMatchingDict(tiles):
     tiles = copy.deepcopy(tiles)
     tileIds = list(tiles.keys())
     indexMatchingDict = {}
@@ -51,26 +51,206 @@ def findCornerIds(tiles):
         rightEdge = tileToCheck[:, -1]
         for compareTileId in tiles:
             compareTile = tiles[compareTileId]
-            if np.array_equal(upperEdge, compareTile[0, :]) or np.array_equal(upperEdge, compareTile[0, ::-1]):
+            if np.array_equal(upperEdge, compareTile[0, :]):
                 indexMatchingDict[index]['upperEdge'] = compareTileId
                 if compareTileId not in indexMatchingDict:
                     indexMatchingDict[compareTileId] = {}
                 indexMatchingDict[compareTileId]['upperEdge'] = index
                 continue
+            if np.array_equal(upperEdge, compareTile[0, ::-1]):
+                indexMatchingDict[index]['upperEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['upperEdgeFlipped'] = index
+                continue
+            if np.array_equal(upperEdge, compareTile[-1, :]):
+                indexMatchingDict[index]['upperEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['lowerEdge'] = index
+                continue
+            if np.array_equal(upperEdge, compareTile[-1, ::-1]):
+                indexMatchingDict[index]['upperEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['lowerEdgeFlipped'] = index
+                continue
+            if np.array_equal(upperEdge, compareTile[:, 0]):
+                indexMatchingDict[index]['upperEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['leftEdge'] = index
+                continue
+            if np.array_equal(upperEdge, compareTile[::-1, 0]):
+                indexMatchingDict[index]['upperEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['leftEdgeFlipped'] = index
+                continue
+            if np.array_equal(upperEdge, compareTile[:, -1]):
+                indexMatchingDict[index]['upperEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['rightEdge'] = index
+                continue
+            if np.array_equal(upperEdge, compareTile[::-1, -1]):
+                indexMatchingDict[index]['upperEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['rightEdgeFlipped'] = index
+                continue
 
-    cornerIds = []
-    for index in indexMatchingDict:
-        lengthOfMatching = len(indexMatchingDict[index])
-        print(lengthOfMatching)
-        if lengthOfMatching == 2:
-            cornerIds.append(index)
-    return cornerIds
+            if np.array_equal(lowerEdge, compareTile[0, :]):
+                indexMatchingDict[index]['lowerEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['upperEdge'] = index
+                continue
+            if np.array_equal(lowerEdge, compareTile[0, ::-1]):
+                indexMatchingDict[index]['lowerEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['upperEdgeFlipped'] = index
+                continue
+            if np.array_equal(lowerEdge, compareTile[-1, :]):
+                indexMatchingDict[index]['lowerEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['lowerEdge'] = index
+                continue
+            if np.array_equal(lowerEdge, compareTile[-1, ::-1]):
+                indexMatchingDict[index]['lowerEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['lowerEdgeFlipped'] = index
+                continue
+            if np.array_equal(lowerEdge, compareTile[:, 0]):
+                indexMatchingDict[index]['lowerEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['leftEdge'] = index
+                continue
+            if np.array_equal(lowerEdge, compareTile[::-1, 0]):
+                indexMatchingDict[index]['lowerEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['leftEdgeFlipped'] = index
+                continue
+            if np.array_equal(lowerEdge, compareTile[:, -1]):
+                indexMatchingDict[index]['lowerEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['rightEdge'] = index
+                continue
+            if np.array_equal(lowerEdge, compareTile[::-1, -1]):
+                indexMatchingDict[index]['lowerEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['rightEdgeFlipped'] = index
+                continue
+
+            if np.array_equal(leftEdge, compareTile[0, :]):
+                indexMatchingDict[index]['leftEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['upperEdge'] = index
+                continue
+            if np.array_equal(leftEdge, compareTile[0, ::-1]):
+                indexMatchingDict[index]['leftEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['upperEdgeFlipped'] = index
+                continue
+            if np.array_equal(leftEdge, compareTile[-1, :]):
+                indexMatchingDict[index]['leftEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['lowerEdge'] = index
+                continue
+            if np.array_equal(leftEdge, compareTile[-1, ::-1]):
+                indexMatchingDict[index]['leftEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['lowerEdgeFlipped'] = index
+                continue
+            if np.array_equal(leftEdge, compareTile[:, 0]):
+                indexMatchingDict[index]['leftEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['leftEdge'] = index
+                continue
+            if np.array_equal(leftEdge, compareTile[::-1, 0]):
+                indexMatchingDict[index]['leftEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['leftEdgeFlipped'] = index
+                continue
+            if np.array_equal(leftEdge, compareTile[:, -1]):
+                indexMatchingDict[index]['leftEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['rightEdge'] = index
+                continue
+            if np.array_equal(leftEdge, compareTile[::-1, -1]):
+                indexMatchingDict[index]['leftEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['rightEdgeFlipped'] = index
+                continue
+
+            if np.array_equal(rightEdge, compareTile[0, :]):
+                indexMatchingDict[index]['rightEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['upperEdge'] = index
+                continue
+            if np.array_equal(rightEdge, compareTile[0, ::-1]):
+                indexMatchingDict[index]['rightEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['upperEdgeFlipped'] = index
+                continue
+            if np.array_equal(rightEdge, compareTile[-1, :]):
+                indexMatchingDict[index]['rightEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['lowerEdge'] = index
+                continue
+            if np.array_equal(rightEdge, compareTile[-1, ::-1]):
+                indexMatchingDict[index]['rightEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['lowerEdgeFlipped'] = index
+                continue
+            if np.array_equal(rightEdge, compareTile[:, 0]):
+                indexMatchingDict[index]['rightEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['leftEdge'] = index
+                continue
+            if np.array_equal(rightEdge, compareTile[::-1, 0]):
+                indexMatchingDict[index]['rightEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['leftEdgeFlipped'] = index
+                continue
+            if np.array_equal(rightEdge, compareTile[:, -1]):
+                indexMatchingDict[index]['rightEdge'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['rightEdge'] = index
+                continue
+            if np.array_equal(rightEdge, compareTile[::-1, -1]):
+                indexMatchingDict[index]['rightEdgeFlipped'] = compareTileId
+                if compareTileId not in indexMatchingDict:
+                    indexMatchingDict[compareTileId] = {}
+                indexMatchingDict[compareTileId]['rightEdgeFlipped'] = index
+
+    return indexMatchingDict
 
 
 csvFile = getCsv()
 tiles = parseTiles(csvFile)
 print(len(tiles))
-cornerIds = findCornerIds(tiles)
-print(cornerIds)
-c = [1699, 2539, 2137, 2549]
-print(1699*2539*2137*2549)
+indexMatchingIds = getIndexMatchingDict(tiles)
+print(indexMatchingIds)
