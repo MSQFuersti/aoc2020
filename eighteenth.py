@@ -78,7 +78,7 @@ def solveEquationAdvanced(row):
             else:
                 intermediateSummation[level] = lastResult + intermediateSummation[level]
             continue
-        if element == ' ' or element == '(' or element == ')':
+        if element == ' ':
             continue
         if element == '*':
             if result[level] is None:
