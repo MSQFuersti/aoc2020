@@ -1,6 +1,5 @@
 import csv
 import copy
-import matplotlib.pyplot as plt
 
 
 def getCsv(txtFileName='twentyfourth.txt'):
